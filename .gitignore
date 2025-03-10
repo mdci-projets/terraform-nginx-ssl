@@ -1,0 +1,31 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+terraform.tfvars
+override.tf
+override.tf.json
+*.auto.tfvars
+crash.log
+terraform.rc
+
+# Clés SSH (évite d’ajouter des clés privées par erreur)
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+
+# Logs et fichiers temporaires
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Fichiers de build / OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+.env

@@ -149,7 +149,7 @@ sudo systemctl restart nginx
 
 Maintenant, **HTTP est automatiquement redirigé vers HTTPS**. 🎉
 
-## 📌 Déploiement de l’application Docker
+## Déploiement de l’application Docker
 
 Une fois tout en place, lance ton application dans un conteneur Docker :
 
@@ -163,7 +163,7 @@ Vérifie que ton application fonctionne en visitant :
 https://app.ton-domaine.com
 ```
 
-## 📌 Gestion et Maintenance
+## Gestion et Maintenance
 
 🔹 **Lister les instances Terraform** :
 
@@ -199,4 +199,4 @@ sudo journalctl -xeu nginx.service
 
 👨‍💻 **Développé par Youssef Massaoudi**  
 💡 **Contact :** y.massaoudi@yahoo.fr  
-🚀 **Projet GitHub :** [github.com/ton-repo]  
+🚀 **Projet GitHub :** [https://github.com/mdci-projets/terraform-nginx-ssl.git]  
