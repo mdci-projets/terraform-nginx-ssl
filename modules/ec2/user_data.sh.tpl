@@ -5,7 +5,13 @@ EMAIL="${email}"
 
 # Mise à jour et installation des paquets nécessaires
 sudo apt update -y
-sudo apt install -y nginx certbot python3-certbot-nginx -y
+sudo apt install -y nginx certbot python3-certbot-nginx docker.io at -y
+sudo systemctl enable --now atd
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker ubuntu
+sudo chown ubuntu:docker /var/run/docker.sock
+sudo chmod 666 /var/run/docker.sock
 
 # Création d'un Virtual Host Nginx temporaire pour servir une page d'attente
 sudo bash -c "cat > /etc/nginx/sites-available/$DOMAIN <<EOF

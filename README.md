@@ -121,22 +121,48 @@ Ajoute cette redirection :
 ```nginx
 server {
     listen 80;
-    server_name app.ton-domaine.com;
-    return 301 https://app.ton-domaine.com$request_uri;
+    server_name mon-domaine.com;
+
+    # Redirection HTTP -> HTTPS
+    return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name app.ton-domaine.com;
+    server_name mon-domaine.com;
 
-    ssl_certificate /etc/letsencrypt/live/app.ton-domaine.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/app.ton-domaine.com/privkey.pem;
+    # Configuration SSL avec Let's Encrypt
+    ssl_certificate /etc/letsencrypt/live/mon-domaine.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/mon-domaine.com/privkey.pem;
 
-    location / {
-        proxy_pass http://localhost:8080;  # Redirection vers le conteneur Docker
+    # Configuration SSL recommandée
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    # Activer WebSocket
+    location /ws/ {
+        proxy_pass http://localhost:8080/ws/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        access_log /var/log/nginx/websocket.log;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+
+    }
+
+    # Configuration standard pour le reverse proxy vers Spring Boot
+    location / {
+        proxy_pass http://localhost:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 ```

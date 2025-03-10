@@ -1,5 +1,5 @@
 resource "aws_security_group" "nginx_sg" {
-  name        = "nginx-security-group"
+  name        = "${var.instance_name}-security-group"
   description = "Autorise HTTP, HTTPS et SSH"
 
   # Autoriser HTTP
